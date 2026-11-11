@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Personalized Stopwatch</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="brand">
+        <svg class="brand-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="13" r="8"></circle>
+          <path d="M12 9v4l2 2"></path>
+          <path d="M5 3L2 6"></path>
+          <path d="M22 6l-3-3"></path>
+          <path d="M12 2v3"></path>
+        </svg>
+        <div class="brand-text">
+          <h1 class="brand-title">Stopwatch</h1>
+          <span class="brand-subtitle">DSA & Focus</span>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <!-- Sound Toggle -->
+        <button id="btn-sound-toggle" class="icon-btn" title="Toggle Sound" aria-label="Toggle Sound">
+          <svg class="icon-sound-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+          </svg>
+          <svg class="icon-sound-off hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="1" y1="1" x2="23" y2="23"></line>
+            <path d="M9 9v3a3 3 0 0 0 5.12 2.12M15 9.34V4a3 3 0 0 0-5.94-.6"></path>
+            <path d="M17 16.95A7 7 0 0 1 5 12v-2m14 0v2a7 7 0 0 1-.11 1.23"></path>
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <line x1="23" y1="9" x2="17" y2="15"></line>
+            <line x1="17" y1="9" x2="23" y2="15"></line>
+          </svg>
+        </button>
+
+        <!-- Theme Toggle -->
+        <button id="btn-theme-toggle" class="icon-btn" title="Toggle Theme (T)" aria-label="Toggle Theme">
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+          <svg class="icon-sun hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+        </button>
+
+        <!-- Laps Drawer Toggle -->
+        <button id="btn-laps-toggle" class="icon-btn" title="Lap Splits" aria-label="View Laps">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path>
+            <line x1="4" y1="22" x2="4" y2="15"></line>
+          </svg>
+          <span id="laps-counter-badge" class="badge-count hidden">0</span>
+        </button>
+
+        <!-- Settings Toggle -->
+        <button id="btn-settings-toggle" class="icon-btn" title="Settings & History" aria-label="Settings">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Session & Status Strip -->
+    <div class="session-strip">
+      <div class="session-category-wrapper">
+        <select id="session-tag" class="session-select" aria-label="Session Category">
+          <option value="DSA Problem">🧠 DSA Problem</option>
+          <option value="LeetCode Drill">💻 LeetCode Drill</option>
+          <option value="Aptitude Test">⏱️ Aptitude Test</option>
+          <option value="Coding Contest">🚀 Coding Contest</option>
+          <option value="System Design">📐 System Design</option>
+          <option value="Study Focus">📚 Study Focus</option>
+        </select>
+      </div>
+
+      <!-- Status Indicator Pill -->
+      <div id="status-pill" class="status-pill status-idle">
+        <span class="status-dot"></span>
+        <span id="status-label" class="status-label">READY</span>
+      </div>
+    </div>
+
+    <!-- Session Title / Problem Note Input -->
+    <div class="session-title-wrapper">
+      <input
+        type="text"
+        id="session-title"
+        class="session-input"
+        placeholder="Problem name or note (e.g. #42 Trapping Rain Water)..."
+        maxlength="60"
+        aria-label="Session Title"
+      />
+    </div>
+
+    <!-- Main Stopwatch Display Card -->
+    <main class="display-card">
+      <div class="display-container" id="display-container">
+        <!-- Optional Hours block (visible when >= 60 minutes) -->
+        <span id="hours-block" class="time-block time-hours hidden">
+          <span id="display-hours" class="digits">00</span>
+          <span class="separator-colon">:</span>
+        </span>
+
+        <!-- Minutes -->
+        <span class="time-block">
+          <span id="display-minutes" class="digits">00</span>
+        </span>
+
+        <span class="separator-colon">:</span>
+
+        <!-- Seconds -->
+        <span class="time-block">
+          <span id="display-seconds" class="digits">00</span>
+        </span>
+
+        <span class="separator-dot">.</span>
+
+        <!-- Centiseconds -->
+        <span class="time-block time-centiseconds">
+          <span id="display-centiseconds" class="digits digits-cs">00</span>
+        </span>
+      </div>
+
+      <!-- Dynamic Current Lap Split Indicator -->
+      <div id="current-lap-preview" class="lap-preview hidden">
+        <span class="lap-preview-label">Lap <span id="preview-lap-num">1</span>:</span>
+        <span id="preview-lap-time" class="lap-preview-time">+00:00.00</span>
+      </div>
+    </main>
+
+    <!-- Primary Control Buttons Grid -->
+    <footer class="controls-container">
+      <div class="primary-controls">
+        <!-- Start / Resume Button -->
+        <button id="btn-start" class="btn btn-start" title="Start or Resume (Space)">
+          <svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor">
+            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+          </svg>
+          <span id="btn-start-label">Start</span>
+        </button>
+
+        <!-- Pause Button -->
+        <button id="btn-pause" class="btn btn-pause" disabled title="Pause (Space)">
+          <svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor">
+            <rect x="6" y="4" width="4" height="16" rx="1"></rect>
+            <rect x="14" y="4" width="4" height="16" rx="1"></rect>
+          </svg>
+          <span>Pause</span>
+        </button>
+      </div>
+
+      <div class="secondary-controls">
+        <!-- Stop Button -->
+        <button id="btn-stop" class="btn btn-secondary btn-stop" disabled title="Stop Session (S)">
+          <svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor">
+            <rect x="5" y="5" width="14" height="14" rx="2"></rect>
+          </svg>
+          <span>Stop</span>
+        </button>
+
+        <!-- Lap Button -->
+        <button id="btn-lap" class="btn btn-secondary btn-lap" disabled title="Record Lap (L)">
+          <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path>
+            <line x1="4" y1="22" x2="4" y2="15"></line>
+          </svg>
+          <span>Lap</span>
+        </button>
+
+        <!-- Reset Button -->
+        <button id="btn-reset" class="btn btn-secondary btn-reset" disabled title="Reset to Zero (R)">
+          <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path>
+          </svg>
+          <span>Reset</span>
+        </button>
+      </div>
+    </footer>
+
+    <!-- Laps Drawer / Overlay -->
+    <div id="laps-panel" class="panel-drawer hidden">
+      <div class="panel-header">
+        <h3 class="panel-title">
+          <svg class="panel-title-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path>
+            <line x1="4" y1="22" x2="4" y2="15"></line>
+          </svg>
+          Lap Splits
+        </h3>
+        <button id="btn-close-laps" class="icon-btn-close" aria-label="Close Laps Panel">&times;</button>
+      </div>
+      <div class="panel-body">
+        <div id="laps-list" class="laps-list">
+          <div class="empty-state">No laps recorded yet. Press "Lap" while running.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Settings & History Drawer / Overlay -->
+    <div id="settings-panel" class="panel-drawer hidden">
+      <div class="panel-header">
+        <h3 class="panel-title">
+          <svg class="panel-title-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+          </svg>
+          Settings & History
+        </h3>
+        <button id="btn-close-settings" class="icon-btn-close" aria-label="Close Settings Panel">&times;</button>
+      </div>
+
+      <div class="panel-body">
+        <!-- Settings Options -->
+        <section class="settings-section">
+          <h4 class="section-heading">Preferences</h4>
+
+          <div class="setting-item">
+            <span class="setting-text">
+              <span class="setting-title">Sound Effects</span>
+              <span class="setting-desc">Play audio clicks and chimes</span>
+            </span>
+            <label class="switch">
+              <input type="checkbox" id="setting-sound" checked>
+              <span class="slider round"></span>
+            </label>
+          </div>
+
+          <div class="setting-item">
+            <span class="setting-text">
+              <span class="setting-title">Dark Theme</span>
+              <span class="setting-desc">High-contrast dark mode</span>
+            </span>
+            <label class="switch">
+              <input type="checkbox" id="setting-theme" checked>
+              <span class="slider round"></span>
+            </label>
+          </div>
+        </section>
+
+        <!-- Keyboard Shortcuts Reference -->
+        <section class="settings-section">
+          <h4 class="section-heading">Keyboard Shortcuts</h4>
+          <div class="shortcuts-grid">
+            <div class="shortcut-row">
+              <span class="shortcut-desc">Start / Pause</span>
+              <kbd class="kbd-key">Space</kbd>
+            </div>
+            <div class="shortcut-row">
+              <span class="shortcut-desc">Stop Session</span>
+              <kbd class="kbd-key">S</kbd>
+            </div>
+            <div class="shortcut-row">
+              <span class="shortcut-desc">Reset Timer</span>
+              <kbd class="kbd-key">R</kbd>
+            </div>
+            <div class="shortcut-row">
+              <span class="shortcut-desc">Record Lap</span>
+              <kbd class="kbd-key">L</kbd>
+            </div>
+            <div class="shortcut-row">
+              <span class="shortcut-desc">Toggle Theme</span>
+              <kbd class="kbd-key">T</kbd>
+            </div>
+          </div>
+        </section>
+
+        <!-- Session History -->
+        <section class="settings-section">
+          <div class="section-heading-row">
+            <h4 class="section-heading">Recent Sessions</h4>
+            <button id="btn-clear-history" class="btn-text-danger" title="Clear History">Clear</button>
+          </div>
+          <div id="history-list" class="history-list">
+            <div class="empty-state">No saved sessions yet. Stop a session to save it.</div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../scripts/storage.js"></script>
+  <script src="../scripts/stopwatch.js"></script>
+  <script src="../scripts/sound.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
+
